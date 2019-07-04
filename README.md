@@ -15,8 +15,31 @@ This is an interactive wizard which needs no parameters. It will also generate t
 All certs, keys and configs WILL be synced between the sender and listener hosts, so they are accesible everywhere.
 configs are distinguished by their name (asked in the wizard), and can be overwritten if needed when using the same name.
 
+```bash
+./reverseshell_configmaker.sh
+```
+
+I mean... seriously...
+
+```bash
+./reverseshell_configmaker.sh --h
+```
+
+What more can I say?
+
+
 ## reverseshell_activator.sh
 
 This script will make it all happen. It expects the configname as only parameter (given in the reverseshell_configmaker.sh script), and will load all needed variables from it.
 It will start the listener (with SSL) on the receiving host in a screen session, connect a bash shell (over SSL) with the specified parameters.
 When the shell is redirected, you can open up the given screen session in the receiving host, this is now an interactive shell on your sending host!
+
+```bash
+./reverseshell_activator.sh $(ls ~/.ReverseShell/ | head -n1)
+```
+or just...
+
+```bash
+./reverseshell_activator.sh configname)
+```
+
