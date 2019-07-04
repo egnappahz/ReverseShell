@@ -40,6 +40,6 @@ When the shell is redirected, you can open up the given screen session in the re
 or just...
 
 ```bash
-./reverseshell_activator.sh configname)
+./reverseshell_activator.sh configname
 ```
 
