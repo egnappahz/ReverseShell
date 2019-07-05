@@ -30,4 +30,4 @@ ssh -t -p $sshport -l $sshuser $rhost "screen -ls | grep reverseshellAgent_$cnam
 screen -dmS reverseshellAgent_$cname
 
 #Start the agent in the screen in a loop
-screen -S reverseshellAgent_$cname -X stuff "while true;do ./reverseshell_activator.sh $cname;done"`echo -ne '\015'`
+screen -S reverseshellAgent_$cname -X stuff "while true;do echo '' | ./reverseshell_activator.sh $cname;done"`echo -ne '\015'`
