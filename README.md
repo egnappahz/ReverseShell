@@ -7,6 +7,13 @@ The scripts are expected to be run on the host that will push its shell outbound
 You have a host which is heavily NAT'ed, and you are not able to open up a port for ssh. However, outgoing ports do work, and you have other servers at your disposal where you CAN open up ports on the internet.
 An outgoing port is all you need to be able to connect to your shell on another server. The listening server here will be a server you completely own, that collects all the shells of hosts who are hard to connect to.
 
+# Prerequisites
+I'm listing all prerequisites here who are *a bit* less common.
+
+* screen
+* openssl
+* mkfifo
+
 # Usage
 ## reverseshell_configmaker.sh
 
