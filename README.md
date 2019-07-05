@@ -5,7 +5,7 @@ The scripts are expected to be run on the host that will push its shell outbound
 
 # Example
 You have a host which is heavily NAT'ed, and you are not able to open up a port for ssh. However, outgoing ports do work, and you have other servers at your disposal where you CAN open up ports on the internet.
-An outgoing port is all you need to be able to connect to your shell on another server.
+An outgoing port is all you need to be able to connect to your shell on another server. The listening server here will be a server you completely own, that collects all the shells of hosts who are hard to connect to.
 
 # Usage
 ## reverseshell_configmaker.sh
@@ -39,7 +39,24 @@ When the shell is redirected, you can open up the given screen session in the re
 ```
 or just...
 
+
+And yes,...
+
 ```bash
-./reverseshell_activator.sh configname
+./reverseshell_activator.sh --h
+```
+
+## reverseshell_agent.sh
+
+This script will just run the activator in a loop in a screen as an agent. Put this script in crontab if you want to autostart the agent on a system to automaticly connect its shell to a listening host.
+
+```bash
+./reverseshell_agent.sh configname
+```
+
+And yes,...
+
+```bash
+./reverseshell_agent.sh --h
 ```
 

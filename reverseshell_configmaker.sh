@@ -3,7 +3,7 @@
 installdir=~/.ReverseShell #Local only
 
 if [ "$1" == "-h" ] || [ "$1" == "--h" ] || [ "$1" == "--help" ] || [ "$1" == "-help" ]; then
-	echo "this scripts creates the configs for diffrent hosts where you want to 'steal' a shell from without using ssh in the config dir $installdir"
+	echo "this script creates the configs for diffrent hosts where you want to 'steal' a shell from without using ssh in the config dir $installdir"
 	echo "just run this script to get a wizard to write a config, which you can use later with the reverseshell_activator.sh <configname> script."
 fi
 

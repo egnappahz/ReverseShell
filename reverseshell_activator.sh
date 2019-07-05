@@ -6,6 +6,11 @@ BORANGE='\033[01;38;5;214m'
 BGREEN='\033[1;92m'
 NOCOLOR='\033[0m'
 
+if [ "$1" == "-h" ] || [ "$1" == "--h" ] || [ "$1" == "--help" ] || [ "$1" == "-help" ] || [ "$1" == "" ]; then
+        echo "this script will automaticly prepare the listening host, and send your shell to the host defined in the configdir. Connection is validated via SSH before doing the redirect."
+        echo "just run this script with the correct <configname>, stored in the configdir. If you dont have a config or need to create one, run reverseshell_activator.sh"
+fi
+
 cname=$1
 installdir=~/.ReverseShell #For local only, remote is static
 
