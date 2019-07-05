@@ -24,13 +24,16 @@ fi
 
 #Make sure there are no previous sessions running!
 echo -e "${BYELLOW}Making sure there are no previous sessions active...${NOCOLOR}"
-ssh -t -p $sshport -l $sshuser $rhost "screen -ls | grep reverseshellAgent_$cname | cut -d '.' -f 1 | xargs kill -9 2>/dev/null && screen -wipe"
+screen -ls | grep -e reverseshellAgent_$cname -e reverseshellControl_$cname | cut -d '.' -f 1 | xargs kill -9 2>/dev/null ; screen -wipe
 
+echo -e "${BYELLOW}Starting screen for agent...${NOCOLOR}"
 #Start the screen for the agent
 screen -dmS reverseshellAgent_$cname
-
 #Start the agent in the screen in a loop
 screen -S reverseshellAgent_$cname -X stuff "while true;do echo '' | ./reverseshell_activator_minimal.sh $cname;done"`echo -ne '\015'`
 
+echo -e "${BYELLOW}Starting screen for control...${NOCOLOR}"
 #Start the screen for the controlline
-
+screen -dmS reverseshellControl_$cname
+#Start the control process in a loop
+screen -S reverseshellControl_$cname -X stuff "while true;do ( tail -f -n0 $installdir/err_$cname.log & ) | grep -q 'read:errno=0'; ps aux | grep reverseshell_activator_minimal | awk '{print $1}' | xargs kill -9;done"`echo -ne '\015'`
