@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/bash
 
 BRED="\033[1;31m"
 BYELLOW='\033[1;93m'
@@ -51,8 +51,8 @@ kill -9 $probejob
 probe2=$(ssh -t -p $sshport -l $sshuser $rhost "tail -n1 /tmp/reverselistener_$cname")
 
 #Clean up SSL escape chars
-probe=$(echo $probe)
-probe2=$(echo $probe2)
+probe=$(echo $probe | tr -cd '[[:digit:]]')
+probe2=$(echo $probe2 | tr -cd '[[:digit:]]')
 echo "ssl probedata: $probe"
 echo "ssh probedata: $probe2"
 
