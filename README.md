@@ -67,3 +67,6 @@ And yes,...
 ./reverseshell_agent.sh --h
 ```
 
+## minimalfiles
+These scripts have the same usage, but provide a more slimmed down version to work in environments like busybox.
+For the moment this is still under heavy development...
