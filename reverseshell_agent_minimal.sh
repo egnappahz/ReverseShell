@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/bash
 
 BRED="\033[1;31m"
 BYELLOW='\033[1;93m'
