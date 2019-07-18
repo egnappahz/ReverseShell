@@ -36,4 +36,4 @@ echo -e "${BYELLOW}Starting screen for control...${NOCOLOR}"
 #Start the screen for the controlline
 screen -dmS reverseshellControl_$cname
 #Start the control process in a loop
-screen -S reverseshellControl_$cname -X stuff "while true;do ( tail -f -n0 $installdir/err_$cname.log & ) | grep -q 'read:errno=0'; ps aux | grep reverseshell_activator_minimal | awk '{print $1}' | xargs kill -9;done"`echo -ne '\015'`
+screen -S reverseshellControl_$cname -X stuff "while true;do ( tail -f -n0 $installdir/$cname/err_$cname.log & ) | grep -q 'read:errno=0'; ps aux | grep reverseshell_activator_minimal | awk '{print $1}' | xargs kill -9;done"`echo -ne '\015'`
