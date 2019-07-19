@@ -87,11 +87,13 @@ And ofcourse,...
 
 # AutoReconnect Robustness
 ## explanation
-The proces is created to restart the OPENSSL sender on the client automaticly when it stops. Then, in turn, the listener on the listening host is autorecreated.
+The proces is created (read: 'looped') to restart the OPENSSL sender on the client automaticly when it stops, gets killed, whatever. Then, in turn, the activator will recreate the listener tener on the listening host, to make sure all points are up and running.
+
 *However,*
-Sometimes the openssl client gets "stuck" when a connection is broken off, this is where the above restarter *does not intervene*. I have added an extra controlproces for that:
+
+Sometimes the openssl client gets "stuck" when a connection is abruptly broken off, leaving it in a perpetual TIMEOUT state. This is where the above explained restarter **does not intervene**. I have added an extra controlproces for that:
 
 ## reverseshell agent extra control proces
 The controlproces will check if the listener screen is still present on the listening host. When this is not the case, it will restart the entire reverseshell proces automaticly.
-*This effectively means that, when a user aborts the listening screen on the listening host, the proces will be restarted from the clients side, effectively giving the user to initiate a remote restart of the reverseshell.*
+**This effectively means that, when a user aborts the listening screen on the listening host, the proces will be restarted from the clients side, effectively giving the user to initiate a remote restart of the reverseshell.**
 this is extremely usefull when the reverse shell is run in a heavily firewalled environment (cuts off random idle connections) or a heavily bad-quality network.
