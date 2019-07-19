@@ -56,6 +56,7 @@ And yes,...
 ## reverseshell_agent.sh
 
 This script will just run the activator in a loop in a screen as an agent. Put this script in crontab if you want to autostart the agent on a system to automaticly connect its shell to a listening host.
+This also comes with an extra control proces. See section *Autoreconnect Robustness* below.
 
 ```bash
 ./reverseshell_agent.sh configname
@@ -69,4 +70,28 @@ And yes,...
 
 ## minimalfiles
 These scripts have the same usage, but provide a more slimmed down version to work in environments like busybox.
-For the moment this is still under heavy development...
+You can use this 'branch' of the scripts to use an alternative client, for example when your shell has limitations or when you are missing vital binaries.
+
+## reverseshell_stopper
+This script will stop all processes involved on the client (sending host) of that particular config. The server's (listening host) screen/process is cleaned out automaticly with each start. 
+
+```bash
+./reverseshell_stopper.sh configname
+```
+
+And ofcourse,...
+
+```bash
+./reverseshell_agent.sh --h
+```
+
+#AutoReconnect Robustness
+##explanation
+The proces is created to restart the OPENSSL sender on the client automaticly when it stops. Then, in turn, the listener on the listening host is autorecreated.
+*However,*
+Sometimes the openssl client gets "stuck" when a connection is broken off, this is where the above restarter *does not intervene*. I have added an extra controlproces for that:
+
+##reverseshell agent extra control proces
+The controlproces will check if the listener screen is still present on the listening host. When this is not the case, it will restart the entire reverseshell proces automaticly.
+*This effectively means that, when a user aborts the listening screen on the listening host, the proces will be restarted from the clients side, effectively giving the user to initiate a remote restart of the reverseshell.*
+this is extremely usefull when the reverse shell is run in a heavily firewalled environment (cuts off random idle connections) or a heavily bad-quality network.
