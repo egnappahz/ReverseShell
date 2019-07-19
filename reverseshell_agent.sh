@@ -38,4 +38,4 @@ screen -dmS reverseshellControl_$cname
 #Start the control process in a loop, but first give the activator some time to create the listener on the other host
 sleep 1
 screen -S reverseshellControl_$cname -X stuff "while true;do ssh -t -p $sshport -l $sshuser $rhost \"screen -ls | grep listener_$cname | wc -l\" 2> /dev/null > /tmp/screens_$cname; cat /tmp/screens_$cname;sleep 5"`echo -ne '\015'`
-screen -S reverseshellControl_$cname -X stuff "if [[ \$(cat /tmp/screens_$cname) = *'0'* ]]; then echo restarting session...;ps aux | grep s_client | grep $rport | xargs kill -9;fi; done"`echo -ne '\015'`
+screen -S reverseshellControl_$cname -X stuff "if [[ \$(cat /tmp/screens_$cname) = *'0'* ]]; then echo restarting session...;ps aux | grep s_client | grep $rport | awk '{print \$2}' | xargs kill -9;fi; done"`echo -ne '\015'`
